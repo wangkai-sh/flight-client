@@ -3,12 +3,13 @@ import Button from '../components/Button';
 import { useBookingContext } from '../hooks/useBookingContext';
 import { formatDateTimeRange } from '../utils/DateUtils';
 import { formatPrice } from '../utils/StringUtils';
+import { updateBookingStatus } from '../services/bookingApi';
 
 const BookingReviewPage = () => {
 
     // 订单信息
-    const { bookingData } = useBookingContext()
-    const { departure, return: returnFlight, totalPrice, otherFee } = bookingData
+    const { bookingData, updateBookingIdAndFee } = useBookingContext()
+    const { departure, return: returnFlight, bookingId, totalPrice, otherFee } = bookingData
 
     const baseDivStlye = 'max-w-xl p-4 bg-white rounded-lg shadow border-2'
     const baseTitleStyle = 'text-black text-2xl py-2 mb-6 font-bold text-left'
@@ -28,11 +29,24 @@ const BookingReviewPage = () => {
         }
     }
 
+    const handleConfirm = async (e) => {
+        e.preventDefault();
+
+        // 检索出发航班信息
+        try {
+            await updateBookingStatus(bookingId, 'CONFIRMED');
+            navigate('/bookingConfirm');
+        } catch (error) {
+            // 调试用代码
+            console.error(error)
+        }
+    }
+
     return (
         <div className='container mx-auto p-4'>
             <div className='flex flex-col md:p-[25px] bg-white rounded-2xl'>
                 <p className='text-black text-4xl mb-6 font-bold text-left'>Review your flights</p>
-                <form className='space-y-6'>
+                <form className='space-y-6' onSubmit={handleConfirm}>
                     {departure ? (
                         <div className={baseDivStlye}>
                             <p className={baseTitleStyle}>Depart</p>
@@ -84,7 +98,7 @@ const BookingReviewPage = () => {
                             <p className='text-black text-base font-bold text-left'>{formatPrice(totalPrice + otherFee)}</p>
                         </div>
                     </div>
-                    <Button custumizedStyle='max-w-xs'>Continue to payment</Button>
+                    <Button type='submit' custumizedStyle='max-w-xs'>Continue to payment</Button>
                 </form>
             </div>
         </div>

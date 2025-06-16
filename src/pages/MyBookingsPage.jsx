@@ -14,7 +14,7 @@ const MyBookingsPage = () => {
             // 获取未完成订单信息
             try {
                 const response = await fetchBookings('Upcoming');
-                setUpcomingData(response.data.content);
+                setUpcomingData(response.content);
             } catch (err) {
                 setError(err.message);
             }
@@ -22,7 +22,7 @@ const MyBookingsPage = () => {
             // 获取已完成订单信息
             try {
                 const response = await fetchBookings('Past');
-                setPastData(response.data.content);
+                setPastData(response.content);
             } catch (err) {
                 setError(err.message);
             }

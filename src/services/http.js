@@ -3,7 +3,7 @@ import { getToken } from '../utils/AuthUtils';
 
 // API实例
 const instance = axios.create({
-    baseURL: 'http://localhost:8081/api', // 基础路径
+    baseURL: import.meta.env.VITE_API_BASE_URL, // 基础路径
     headers: { 'Content-Type': 'application/json' }
 });
 

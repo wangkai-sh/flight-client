@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import TextInput from '../components/TextInput';
-import { useAuthContext } from '../hooks/UseAuthContext';
+import { useAuthContext } from '../hooks/useAuthContext';
 import { loginApi } from '../services/authApi';
 
 const LoginPage = () => {
@@ -70,8 +70,8 @@ const LoginPage = () => {
         if (validateForm()) {
             try {
                 const response = await loginApi(localForm);
-                // 存储Token
-                login(response.data.token);
+                // 存储登录信息
+                login(response.userId, response.token);
 
                 // 判断是否来自注册页
                 if (isFromRegister) {

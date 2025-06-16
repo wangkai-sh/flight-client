@@ -15,6 +15,17 @@ export const formatPrice = (price, decimals = 2) => {
     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
 };
 
+// 获取仓位名称
+export const getcabinClassName = (cabinClass) => {
+  switch (cabinClass) {
+    case '1':
+      return 'Business'
+    case '2':
+      return 'First Class'
+    default:
+      return 'Economy'
+  }
+}
 // export const safeStringify = (obj) => {
 //   return JSON.stringify(obj, (key, value) => {
 //     if (value instanceof Date) {

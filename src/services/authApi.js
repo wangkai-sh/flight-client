@@ -1,7 +1,7 @@
 import instance from "../services/http";
 
-export const registerApi = (userData) =>
-  instance.post('/auth/register', {
+export const registerApi = async (userData) => {
+  const response = await instance.post('/auth/register', {
     user: {
       email: userData.email,
       password: userData.password,
@@ -10,10 +10,16 @@ export const registerApi = (userData) =>
       country: userData.country,
       phone: userData.phone
     }
-  });
+  })
 
-export const loginApi = (loginData) =>
-instance.post('/auth/login', {
+  return response.data;
+};
+
+export const loginApi = async (loginData) => {
+  const response = await instance.post('/auth/login', {
     email: loginData.email,
     password: loginData.password
-  });
+  })
+
+  return response.data;
+};

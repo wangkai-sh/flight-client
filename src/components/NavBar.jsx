@@ -1,7 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../hooks/UseAuthContext';
+import { useAuthContext } from '../hooks/useAuthContext';
 import Button from './Button';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     const { isAuthenticated } = useAuthContext();
@@ -13,7 +14,8 @@ const Navbar = () => {
 
     return (
         <nav className='flex justify-end items-center m-4'>
-            <Button variant='naviTransparentW' onClick={() => navigate('/mybookings')}>Find Bookings</Button>
+            <Link className='text-white text-base font-bold mb-3 focus:outline-none' to="/">Home</Link>
+            <Link className='text-white text-base font-bold mb-3 px-4 py-2 focus:outline-none' to="/mybookings">Find Bookings</Link>
             {isAuthenticated ? (
                 <Button variant='navi' onClick={handleLogout}>Logout</Button>
             ) : (

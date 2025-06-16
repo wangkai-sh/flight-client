@@ -7,6 +7,7 @@ export const BookingProvider = ({ children }) => {
         passengers: null,
         departure: null,
         return: null,
+        bookingId: null,
         totalPrice: 0,
         otherFee: 0
     })
@@ -19,8 +20,8 @@ export const BookingProvider = ({ children }) => {
         setBookingData(prev => ({ ...prev, passengers }))
     };
 
-    const updateBookingFee = (totalPrice, otherFee) => {
-        setBookingData(prev => ({ ...prev, totalPrice, otherFee }))
+    const updateBookingIdAndFee = (bookingId, totalPrice, otherFee) => {
+        setBookingData(prev => ({ ...prev, bookingId, totalPrice, otherFee }))
     };
 
     return (
@@ -28,7 +29,7 @@ export const BookingProvider = ({ children }) => {
             bookingData,
             updateSelectedFlight,
             updatePassengers,
-            updateBookingFee
+            updateBookingIdAndFee
         }}>
             {children}
         </BookingContext.Provider>

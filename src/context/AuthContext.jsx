@@ -5,6 +5,7 @@ import instance from "../services/http";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+    const [userId, setUserId] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const checkAuth = useCallback(async () => {
@@ -28,8 +29,9 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     // 登录成功后更新状态
-    const login = useCallback(async (token) => {
-        storeToken(token)
+    const login = useCallback(async (userId, token) => {
+        storeToken(token);
+        setUserId(userId);
         setIsAuthenticated(true);
     }, []);
 
@@ -46,6 +48,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={{
+            userId,
             isAuthenticated,
             checkAuth,
             login,

@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FlightTable from '../components/FlightTable';
-import { useBookingContext } from '../hooks/useBookingContext';
+import { useAuthContext } from '../hooks/useAuthContext';
 import { useFlightContext } from '../hooks/useFlightContext';
+import { useBookingContext } from '../hooks/useBookingContext';
 import { addBooking } from '../services/bookingApi';
 
 const SearchResultPage = () => {
 
     const { state } = useLocation()
+    // 登录信息
+    const { userId } = useAuthContext()
     // 可选的航班信息
     const { departure, return: returnFlights } = useFlightContext()
     // 订单信息
-    const { updateSelectedFlight, updateBookingFee } = useBookingContext()
+    const { updateSelectedFlight, updateBookingIdAndFee } = useBookingContext()
     // 当前操作（选择出发航班/返程航班）
     const [currentStep, setCurrentStep] = useState('departure')
     // 存储出发航班
@@ -50,13 +53,13 @@ const SearchResultPage = () => {
         if (state.tripType === '1') {
             try {
                 // 添加订单
-                const response = await addBooking(14,
+                const response = await addBooking(userId,
                     selectedFlight.flightId,
                     null,
                     passengers)
 
                 // 存储订单总价和其他费用
-                updateBookingFee(response.data.totalPrice, response.data.otherFee)
+                updateBookingIdAndFee(response.bookingId, response.totalPrice, response.otherFee)
 
                 // 跳转至航班确认页
                 navigate('/bookingReview');
@@ -72,13 +75,13 @@ const SearchResultPage = () => {
             if (currentStep === 'return') {
                 try {
                     // 添加订单
-                    const response = await addBooking(14,
+                    const response = await addBooking(userId,
                         selectedDepartureFlightId,
                         selectedFlight.flightId,
                         passengers)
 
                     // 存储订单总价和其他费用
-                    updateBookingFee(response.data.totalPrice, response.data.otherFee)
+                    updateBookingIdAndFee(response.bookingId, response.totalPrice, response.otherFee)
 
                     // 跳转至航班确认页
                     navigate('/bookingReview');

@@ -4,7 +4,6 @@ import PrivateRoute from './components/PrivateRoute'
 import { AuthProvider } from './context/AuthContext'
 import { BookingProvider } from './context/BookingContext'
 import { FlightProvider } from './context/FlightContext'
-import BookingReviewPage from './pages/BookingReviewPage'
 import Navbar from './components/NavBar'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
@@ -12,6 +11,8 @@ import LogoutPage from './pages/LogoutPage'
 import MyBookingsPage from './pages/MyBookingsPage'
 import RegisterPage from './pages/RegisterPage'
 import SearchResultPage from './pages/SearchResultPage'
+import BookingReviewPage from './pages/BookingReviewPage'
+import BookingConfirmation from './pages/BookingConfirmation'
 
 function App() {
 
@@ -76,6 +77,12 @@ function App() {
                   <PrivateRoute>
                     <BookingReviewPage />
                   </PrivateRoute>
+                }
+              />
+              <Route
+                path='/bookingConfirm'
+                element={
+                  <BookingConfirmation />
                 }
               />
               <Route

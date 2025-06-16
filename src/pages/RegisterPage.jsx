@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
+import { useAuthContext } from '../hooks/useAuthContext';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import DropdownMenu from '../components/DropdownMenu';
 import TextInput from '../components/TextInput';
-import { useAuthContext } from '../hooks/UseAuthContext';
 import { registerApi } from '../services/authApi';
 import { isEmpty } from '../utils/StringUtils';
 
 const RegisterPage = () => {
-    const { formData, updateFormData } = useAuthContext
 
     // 保存检查时发生的错误内容
     const [errors, setErrors] = useState({})
+    // 登录状态
+    const { login } = useAuthContext()
 
     // 保存用户注册信息
     const [localForm, setLocalForm] = useState({
@@ -114,13 +115,13 @@ const RegisterPage = () => {
 
         // 检查用户注册信息
         if (validateForm()) {
-            // 登录用户注册信息
-            updateFormData(localForm);
             try {
-                await registerApi(localForm)
+                const response = await registerApi(localForm)
+                // 存储登录信息
+                login(response.user.userId, response.token);
                 alert('Registration succeeded')
-                // 注册成功后跳转登录页面
-                navigator('/login')
+                // 注册成功后跳转首页
+                navigator('/')
             } catch (error) {
                 // 调试用代码
                 console.error(error)
@@ -193,7 +194,7 @@ const RegisterPage = () => {
                             onChange={handleChange}
                             errorMessage={errors.phone}
                         />
-                        <Button custumizedStyle='max-w-xs'>Register</Button>
+                        <Button type='submit' custumizedStyle='max-w-xs'>Register</Button>
                     </div>
                 </form>
             </div>

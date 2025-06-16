@@ -13,7 +13,7 @@ export const addBooking = async (
         passengers: passengers
     });
 
-    return response;
+    return response.data;
 };
 
 // 获取所有订单
@@ -26,5 +26,18 @@ export const fetchBookings = async (status, page = 1, size = 5) => {
         }
     });
 
-    return response;
+    return response.data;
+};
+
+// 更新订单状态
+export const updateBookingStatus = async (bookingId, status) => {
+    const response = await instance.patch(`/bookings/${bookingId}/status`,
+        null,
+        {
+            params: {
+                status: status
+            }
+        });
+
+    return response.data;
 };
